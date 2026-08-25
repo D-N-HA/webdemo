@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Truyện Ma Cõi Âm{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    {% load static %}
+    {% load socialaccount %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="blood-text">TRUYỆN MA</span> ĐÊM KHUYA
+            </a>
+            
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                    <span class="user-welcome">Xin chào, {{ user.username }}</span>
+                    {% if user.is_superuser %}
+                        <a href="/admin" class="nav-btn admin-btn">Quản Trị</a>
+                    {% endif %}
+                    <form method="post" action="{% url 'account_logout' %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-btn logout-btn">Đăng xuất</button>
+                    </form>
+                {% else %}
+                    <a href="{% provider_login_url 'google' %}" class="nav-btn login-btn">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                        Đăng nhập
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Truyện Ma Đêm Khuya. Kể chuyện rùng rợn.</p>
+    </footer>
+</body>
+</html>

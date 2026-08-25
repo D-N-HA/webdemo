@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ story.title }} - Truyện Ma{% endblock %}
+
+{% block content %}
+<div class="story-detail-container">
+    <div class="detail-header">
+        <span class="category-badge">{{ story.category.name }}</span>
+        <h1 class="story-title">{{ story.title }}</h1>
+        <div class="story-meta">
+            <span>Đăng ngày: {{ story.created_at|date:"d/m/Y" }}</span>
+            <span>Lượt xem: {{ story.views }}</span>
+        </div>
+    </div>
+
+    {% if story.cover_image_url %}
+    <div class="story-cover">
+        <img src="{{ story.cover_image_url }}" alt="{{ story.title }}">
+    </div>
+    {% endif %}
+
+    {% if story.audio_url %}
+    <div class="audio-player-wrapper glass-panel">
+        <div class="audio-icon">🎧 Nghe audio</div>
+        <audio controls class="custom-audio">
+            <source src="{{ story.audio_url }}" type="audio/mpeg">
+            Trình duyệt của bạn không hỗ trợ thẻ audio.
+        </audio>
+    </div>
+    {% endif %}
+
+    <div class="story-body glass-panel">
+        {{ story.content|linebreaks }}
+    </div>
+    
+    <div class="back-link">
+        <a href="{% url 'stories:list' %}" class="nav-btn">⬅ Trở về danh sách</a>
+    </div>
+</div>
+{% endblock %}

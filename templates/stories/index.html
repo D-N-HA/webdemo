@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Danh sách Truyện Ma - Rùng Rợn{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1 class="glitch-title" data-text="THẾ GIỚI TÂM LINH">THẾ GIỚI TÂM LINH</h1>
+    <p class="hero-subtitle">Mỗi câu chuyện là một tiếng bước chân trong đêm...</p>
+</div>
+
+<div class="stories-grid">
+    {% for story in stories %}
+    <a href="{% url 'stories:detail' story.slug %}" class="story-card">
+        <div class="card-image">
+            {% if story.cover_image_url %}
+            <img src="{{ story.cover_image_url }}" alt="{{ story.title }}">
+            {% else %}
+            <div class="placeholder-img">
+                <span>💀</span>
+            </div>
+            {% endif %}
+            <div class="overlay-grad"></div>
+        </div>
+        <div class="card-content">
+            <span class="category-badge">{{ story.category.name }}</span>
+            <h2>{{ story.title }}</h2>
+            <div class="card-meta">
+                <span>👁️ {{ story.views }} lượt xem</span>
+                <span>🕒 {{ story.created_at|date:"d/m/Y" }}</span>
+            </div>
+        </div>
+    </a>
+    {% empty %}
+    <div class="empty-state">
+        <h2>Chưa có truyện nào được đăng tải...</h2>
+        <p>Vui lòng đăng nhập Admin để thêm truyện mới.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
